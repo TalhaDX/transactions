@@ -24,7 +24,7 @@ public class PaymentInfo {
 
     private String accountNo;
     private Double amount;
-    private String cardType;
+    private CardType cardType;
     private Long userId;
 
 }
