@@ -3,6 +3,7 @@ package com.example.transaction.service;
 import com.example.transaction.domain.PaymentInfo;
 import com.example.transaction.domain.PaymentStatus;
 import com.example.transaction.domain.UserInfo;
+import com.example.transaction.exceptions.InsufficientAmountException;
 import com.example.transaction.model.PackageBookingRequest;
 import com.example.transaction.model.PackageConfirmation;
 import com.example.transaction.repository.PaymentInfoRepository;
@@ -25,7 +26,7 @@ public class PackageBookingServiceImpl implements PackageBookingService {
 
     @Transactional
     @Override
-    public PackageConfirmation purchasePackage(PackageBookingRequest request) {
+    public PackageConfirmation purchasePackage(PackageBookingRequest request) throws InsufficientAmountException {
 
         UserInfo userInfo = request.getUserInfo();
         userInfoRepository.save(userInfo);

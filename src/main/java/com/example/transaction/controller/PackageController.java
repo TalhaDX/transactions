@@ -1,5 +1,6 @@
 package com.example.transaction.controller;
 
+import com.example.transaction.exceptions.InsufficientAmountException;
 import com.example.transaction.model.PackageBookingRequest;
 import com.example.transaction.model.PackageConfirmation;
 import com.example.transaction.service.PackageBookingService;
@@ -17,7 +18,7 @@ public class PackageController {
     private PackageBookingService service;
 
     @PostMapping
-    public PackageConfirmation purchasePackage(@RequestBody PackageBookingRequest request) {
+    public PackageConfirmation purchasePackage(@RequestBody PackageBookingRequest request) throws InsufficientAmountException {
         return service.purchasePackage(request);
     }
 }
