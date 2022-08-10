@@ -1,6 +1,7 @@
 package com.example.transaction.utils;
 
 import com.example.transaction.exceptions.InsufficientAmountException;
+import com.example.transaction.exceptions.NoAccountFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,10 @@ public class AccountUtils {
     }
 
     public static boolean validateLimit(String userAccount, Double amountPaid){
+
+        if(paymentMap.get(userAccount) == null){
+            throw new NoAccountFoundException("No user account found");
+        }
 
         if(amountPaid > paymentMap.get(userAccount)){
             throw new InsufficientAmountException("Insufficient amount in account");
