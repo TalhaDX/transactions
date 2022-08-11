@@ -4,10 +4,14 @@ import com.example.transaction.domain.PaymentInfo;
 import com.example.transaction.domain.PaymentStatus;
 import com.example.transaction.domain.UserInfo;
 import com.example.transaction.exceptions.InsufficientAmountException;
+import com.example.transaction.model.NotificationModel;
 import com.example.transaction.model.PackageBookingRequest;
 import com.example.transaction.model.PackageConfirmation;
 import com.example.transaction.repository.PaymentInfoRepository;
 import com.example.transaction.repository.UserInfoRepository;
+import com.example.transaction.service.notification.NotificationService;
+import com.example.transaction.type.NotificationReason;
+import com.example.transaction.type.NotificationSendType;
 import com.example.transaction.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,9 @@ public class PackageBookingServiceImpl implements PackageBookingService {
     @Autowired
     private PaymentInfoRepository paymentInfoRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
     @Override
     public PackageConfirmation purchasePackage(PackageBookingRequest request) throws InsufficientAmountException {
@@ -39,6 +46,8 @@ public class PackageBookingServiceImpl implements PackageBookingService {
         paymentInfo.setAmount(userInfo.getFare());
 
         paymentInfoRepository.save(paymentInfo);
+
+        notificationService.sendNotification(new NotificationModel(request.getUserInfo().getEmail(), NotificationSendType.EMAIL, NotificationReason.SIGNUP));
 
         return new PackageConfirmation(PaymentStatus.SUCCESS, userInfo.getFare(), UUID.randomUUID().toString(), userInfo);
     }
