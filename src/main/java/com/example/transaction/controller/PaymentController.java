@@ -1,6 +1,7 @@
 package com.example.transaction.controller;
 
 import com.example.transaction.domain.PaymentInfo;
+import com.example.transaction.exceptions.NoUserFoundException;
 import com.example.transaction.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/{userId}")
-    public PaymentInfo getPaymentInfoByUser(@PathVariable Long userId){
+    public PaymentInfo getPaymentInfoByUser(@PathVariable Long userId) throws NoUserFoundException {
         return paymentService.getPaymentInfoByUserId(userId);
     }
 

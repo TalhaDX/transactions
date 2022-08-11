@@ -2,6 +2,7 @@ package com.example.transaction.advice;
 
 import com.example.transaction.exceptions.InsufficientAmountException;
 import com.example.transaction.exceptions.NoAccountFoundException;
+import com.example.transaction.exceptions.NoUserFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = {NoAccountFoundException.class})
     protected ResponseEntity<Object> handleNoUserFound(NoAccountFoundException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = {NoUserFoundException.class})
+    protected ResponseEntity<Object> handleNoUserFoundAgainstPayment(NoUserFoundException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
