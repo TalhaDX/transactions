@@ -22,6 +22,7 @@ public class UserInfo {
     private Long id;
     private String name;
     private String email;
+    private String password;
 
     private Double fare;
 
